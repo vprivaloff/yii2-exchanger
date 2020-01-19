@@ -28,13 +28,13 @@ composer require vprivaloff/yii2-exchanger
 
 Для использования необходмо объявить пронстранство имен ```use vprivaloff\exchanger\Exchanger;```
 ```php
-	use vprivaloff\exchanger\Exchanger;
-	use vprivaloff\exchanger\Currency;
+use vprivaloff\exchanger\Exchanger;
+use vprivaloff\exchanger\Currency;
 
-	//определяем необходимую валюту
-	$currency = Currency::EUR;
+//определяем необходимую валюту
+$currency = Currency::EUR;
 
-	//получаем стоимость в рублях по текущему курсу на сегодня
-	$euro = Exchanger::CBR_exchange($currency);
-	...
+//получаем стоимость в рублях по текущему курсу на сегодня
+$euro = Exchanger::CBR_exchange($currency);
+...
 ```
