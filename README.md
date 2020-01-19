@@ -26,7 +26,8 @@ composer require vprivaloff/yii2-exchanger
 
 в раздел `require` вашего приложения в файл `composer.json`.
 
-Для использования необходмо объявить пронстранство имен ```use vprivaloff\exchanger\Exchanger;```
+Для подключения необходмо использовать следующие пронстранства имен:
+
 ```php
 use vprivaloff\exchanger\Exchanger;
 use vprivaloff\exchanger\Currency;
