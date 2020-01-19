@@ -1,0 +1,28 @@
+{
+    "name": "vprivaloff/yii2-exchanger",
+    "description": "Package",
+    "type": "yii2-extension",
+    "require": {
+        "yiisoft/yii2": "~2.0.14"
+
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Privalov",
+            "email": "v.privaloff@mail.ru",
+            "homepage": "https://github.com/vprivaloff/yii2-exchanger",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "extra": {
+        "bootstrap": "vprivaloff\\exchanger\\Bootstrap"
+    },
+    "autoload": {
+        "psr-4": {
+            "vprivaloff\\exchanger\\": "src"
+        }
+    }
+
+}
