@@ -30,12 +30,8 @@ composer require vprivaloff/yii2-exchanger
 
 ```php
 use vprivaloff\exchanger\Exchanger;
-use vprivaloff\exchanger\Currency;
 
-//определяем необходимую валюту
-$currency = Currency::EUR;
-
-//получаем стоимость в рублях по текущему курсу на сегодня
-$euro = Exchanger::CBR_exchange($currency);
+//получаем стоимость в рублях по текущему курсу на сегодня, где EUR - наименование валюты, а число - количество цифор после плавающей точки
+$euro = Exchanger::CBR_exchange("EUR", 3);
 ...
 ```
