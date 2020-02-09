@@ -6,38 +6,33 @@ use vprivaloff\exchanger\Currency;
 
 class Exchanger
 {
-  public function CBR_exchange($cur = 'USD')
+
+  public function CBR_exchange( string $currency_code, int $format )
   {
     // Формируем сегодняшнюю дату
-    $date = date( "d/m/Y" );
-    // Формируем ссылку
-    $link = "http://www.cbr.ru/scripts/XML_daily.asp?date_req=$date";
-    // Загружаем HTML-страницу
-    $fd = fopen($link, "r");
-    $content = "";
+    $date = date("d/m/Y"); // Текущая дата
+    $cache_time_out = "3600"; // Время жизни кеша в секундах
 
-    if ( !$fd ){
-      echo "Запрашиваемая страница не найдена";
-    } else {
-      // Чтение содержимого файла в переменную $content
-      while (!feof ( $fd )) $content .= fgets($fd, 4096);
-    }
-    // Закрыть открытый файловый дескриптор
-    fclose ( $fd );
+    $file_currency_cache = __DIR__."/XML_daily.asp";
 
-    // Разбираем содержимое, при помощи регулярных выражений
-    $pattern = "#<Valute ID=\"([^\"]+)[^>]+>[^>]+>([^<]+)[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>([^<]+)[^>]+>[^>]+>([^<]+)#i"; 
-    preg_match_all($pattern, $content, $array, PREG_SET_ORDER);
+    if(!is_file($file_currency_cache) || filemtime($file_currency_cache) < (time() - $cache_time_out)) {
 
-    $currency = Currency::$cur;
+      $ch = curl_init();
 
-    foreach($array as $value)
-    {
-      if($value[2] == $currency){
-        $result = str_replace(",",".",$value[4]);
-      }
+      curl_setopt($ch, CURLOPT_URL, "https://www.cbr.ru/scripts/XML_daily.asp?date_req=".$date);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+
+      $out = curl_exec($ch);
+
+      curl_close($ch);
+
+      file_put_contents($file_currency_cache, $out);
+
     }
 
-    return $result;
+    $content_currency = simplexml_load_file($file_currency_cache);
+
+    return number_format(str_replace(",", ".", $content_currency->xpath('Valute[CharCode="'.$currency_code.'"]')[0]->Value), $format);
   }
 }
